@@ -1,7 +1,10 @@
 package br.net.hartwig.apicarrinhocompras.domain;
 
+import javax.persistence.Entity;
+
 import br.net.hartwig.apicarrinhocompras.domain.enums.EstadoPagamento;
 
+@Entity
 public class PagamentoComCartao extends Pagamento {
 
 	private static final long serialVersionUID = 1L;

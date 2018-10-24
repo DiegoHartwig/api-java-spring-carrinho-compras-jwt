@@ -1,5 +1,6 @@
 package br.net.hartwig.apicarrinhocompras;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +13,20 @@ import br.net.hartwig.apicarrinhocompras.domain.Cidade;
 import br.net.hartwig.apicarrinhocompras.domain.Cliente;
 import br.net.hartwig.apicarrinhocompras.domain.Endereco;
 import br.net.hartwig.apicarrinhocompras.domain.Estado;
+import br.net.hartwig.apicarrinhocompras.domain.Pagamento;
+import br.net.hartwig.apicarrinhocompras.domain.PagamentoComBoleto;
+import br.net.hartwig.apicarrinhocompras.domain.PagamentoComCartao;
+import br.net.hartwig.apicarrinhocompras.domain.Pedido;
 import br.net.hartwig.apicarrinhocompras.domain.Produto;
+import br.net.hartwig.apicarrinhocompras.domain.enums.EstadoPagamento;
 import br.net.hartwig.apicarrinhocompras.domain.enums.TipoCliente;
 import br.net.hartwig.apicarrinhocompras.repositories.CategoriaRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.CidadeRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.ClienteRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.EnderecoRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.EstadoRepository;
+import br.net.hartwig.apicarrinhocompras.repositories.PagamentoRepository;
+import br.net.hartwig.apicarrinhocompras.repositories.PedidoRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.ProdutoRepository;
 
 @SpringBootApplication
@@ -41,6 +49,12 @@ public class ApicarrinhocomprasApplication implements CommandLineRunner {
 
 	@Autowired
 	private EnderecoRepository enderecoRepository;
+
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
+
+	@Autowired
+	private PedidoRepository pedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApicarrinhocomprasApplication.class, args);
@@ -100,5 +114,23 @@ public class ApicarrinhocomprasApplication implements CommandLineRunner {
 
 		enderecoRepository.saveAll(Arrays.asList(endereco1, endereco2));
 
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+		Pedido pedido1 = new Pedido(null, simpleDateFormat.parse("23/10/2018 18:55"), cliente1, endereco1);
+
+		Pedido pedido2 = new Pedido(null, simpleDateFormat.parse("22/10/2018 20:10"), cliente1, endereco2);
+
+		Pagamento pagamento1 = new PagamentoComCartao(null, EstadoPagamento.QUITADO, pedido1, 6);
+		pedido1.setPagamento(pagamento1);
+
+		Pagamento pagamento2 = new PagamentoComBoleto(null, EstadoPagamento.PENDENTE, pedido2,
+				simpleDateFormat.parse("23/10/2018 22:00"), null);
+		pedido2.setPagamento(pagamento2);
+
+		cliente1.getPedidos().addAll(Arrays.asList(pedido1, pedido2));
+
+		pedidoRepository.saveAll(Arrays.asList(pedido1, pedido2));
+
+		pagamentoRepository.saveAll(Arrays.asList(pagamento1, pagamento2));
 	}
 }

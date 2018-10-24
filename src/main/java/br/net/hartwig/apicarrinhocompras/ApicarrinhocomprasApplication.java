@@ -13,6 +13,7 @@ import br.net.hartwig.apicarrinhocompras.domain.Cidade;
 import br.net.hartwig.apicarrinhocompras.domain.Cliente;
 import br.net.hartwig.apicarrinhocompras.domain.Endereco;
 import br.net.hartwig.apicarrinhocompras.domain.Estado;
+import br.net.hartwig.apicarrinhocompras.domain.ItemPedido;
 import br.net.hartwig.apicarrinhocompras.domain.Pagamento;
 import br.net.hartwig.apicarrinhocompras.domain.PagamentoComBoleto;
 import br.net.hartwig.apicarrinhocompras.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import br.net.hartwig.apicarrinhocompras.repositories.CidadeRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.ClienteRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.EnderecoRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.EstadoRepository;
+import br.net.hartwig.apicarrinhocompras.repositories.ItemPedidoRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.PagamentoRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.PedidoRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class ApicarrinhocomprasApplication implements CommandLineRunner {
 
 	@Autowired
 	private PedidoRepository pedidoRepository;
+
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApicarrinhocomprasApplication.class, args);
@@ -132,5 +137,16 @@ public class ApicarrinhocomprasApplication implements CommandLineRunner {
 		pedidoRepository.saveAll(Arrays.asList(pedido1, pedido2));
 
 		pagamentoRepository.saveAll(Arrays.asList(pagamento1, pagamento2));
+
+		ItemPedido itemPedido1 = new ItemPedido(pedido1, produto1, 0.0, 1, 1200.00);
+		ItemPedido itemPedido2 = new ItemPedido(pedido2, produto1, 0.0, 3, 1600.00);
+
+		pedido1.getItens().addAll(Arrays.asList(itemPedido1, itemPedido2));
+
+		produto1.getItens().addAll(Arrays.asList(itemPedido1));
+
+		produto2.getItens().addAll(Arrays.asList(itemPedido2));
+
+		itemPedidoRepository.saveAll(Arrays.asList(itemPedido1, itemPedido2));
 	}
 }

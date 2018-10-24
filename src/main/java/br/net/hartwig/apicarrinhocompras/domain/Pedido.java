@@ -2,6 +2,8 @@ package br.net.hartwig.apicarrinhocompras.domain;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -33,13 +35,15 @@ public class Pedido implements Serializable {
 	@JoinColumn(name = "endereco_entrega_id")
 	private Endereco enderecoDeEntrega;
 
+	private Set<ItemPedido> itens = new HashSet<>();
+
 	public Pedido() {
 	}
 
 	public Pedido(Integer id, Date instante, Cliente cliente, Endereco enderecoDeEntrega) {
 		super();
 		this.id = id;
-		this.instante = instante;		
+		this.instante = instante;
 		this.cliente = cliente;
 		this.enderecoDeEntrega = enderecoDeEntrega;
 	}
@@ -82,6 +86,14 @@ public class Pedido implements Serializable {
 
 	public void setEnderecoDeEntrega(Endereco enderecoDeEntrega) {
 		this.enderecoDeEntrega = enderecoDeEntrega;
+	}
+
+	public Set<ItemPedido> getItens() {
+		return itens;
+	}
+
+	public void setItens(Set<ItemPedido> itens) {
+		this.itens = itens;
 	}
 
 	@Override

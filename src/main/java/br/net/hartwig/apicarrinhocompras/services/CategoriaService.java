@@ -1,5 +1,6 @@
 package br.net.hartwig.apicarrinhocompras.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,10 @@ public class CategoriaService {
 			throw new DataIntegrityException(
 					"Não foi possivel excluir esta categoria, pois ela possui produtos associados!");
 		}
+	}
+
+	public List<Categoria> findAll() {
+		return repo.findAll();
 	}
 
 }

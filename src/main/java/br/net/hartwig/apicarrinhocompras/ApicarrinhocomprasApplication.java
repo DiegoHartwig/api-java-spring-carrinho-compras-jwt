@@ -70,7 +70,26 @@ public class ApicarrinhocomprasApplication implements CommandLineRunner {
 
 		Categoria categoria1 = new Categoria(null, "Pneus");
 		Categoria categoria2 = new Categoria(null, "Capacetes");
-		Categoria categoria3 = new Categoria(null, "Acessórios");
+		Categoria categoria3 = new Categoria(null, "Baterias");
+		Categoria categoria4 = new Categoria(null, "Espelhos");
+		Categoria categoria5 = new Categoria(null, "Escapamento");
+		Categoria categoria6 = new Categoria(null, "Kit Relação");
+		Categoria categoria7 = new Categoria(null, "Aro 21");
+		Categoria categoria8 = new Categoria(null, "Velas");
+		Categoria categoria9 = new Categoria(null, "Cabos de Vela");
+		Categoria categoria10 = new Categoria(null, "Manoplas");
+		Categoria categoria11 = new Categoria(null, "Cabo de Embreagem");
+		Categoria categoria12 = new Categoria(null, "Cabo de Acelerador");
+		Categoria categoria13 = new Categoria(null, "Amortecedor");
+		Categoria categoria14 = new Categoria(null, "Cubo");
+		Categoria categoria15 = new Categoria(null, "Guidão");
+		Categoria categoria16 = new Categoria(null, "Corrente");
+		Categoria categoria17 = new Categoria(null, "Botas");
+		Categoria categoria18 = new Categoria(null, "Roupa de Chuva");
+		Categoria categoria19 = new Categoria(null, "Acessórios");
+		Categoria categoria20 = new Categoria(null, "Comando Avançado");
+		Categoria categoria21 = new Categoria(null, "Radiador");
+		Categoria categoria22 = new Categoria(null, "Luvas");
 
 		Produto produto1 = new Produto(null, "Pneu Metzeler", 899.00);
 		Produto produto2 = new Produto(null, "Capacete Old School", 150.00);
@@ -84,7 +103,10 @@ public class ApicarrinhocomprasApplication implements CommandLineRunner {
 		produto2.getCategorias().addAll(Arrays.asList(categoria2));
 		produto3.getCategorias().addAll(Arrays.asList(categoria3));
 
-		categoriaRepository.saveAll(Arrays.asList(categoria1, categoria2, categoria3));
+		categoriaRepository.saveAll(Arrays.asList(categoria1, categoria2, categoria3, categoria4, categoria5,
+				categoria6, categoria7, categoria8, categoria9, categoria10, categoria11, categoria12, categoria13,
+				categoria14, categoria15, categoria16, categoria17, categoria18, categoria19, categoria20, categoria21,
+				categoria22));
 
 		produtoRepository.saveAll(Arrays.asList(produto1, produto2, produto3));
 

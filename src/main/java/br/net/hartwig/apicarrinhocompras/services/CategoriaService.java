@@ -3,10 +3,12 @@ package br.net.hartwig.apicarrinhocompras.services;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import br.net.hartwig.apicarrinhocompras.domain.Categoria;
 import br.net.hartwig.apicarrinhocompras.repositories.CategoriaRepository;
+import br.net.hartwig.apicarrinhocompras.services.exceptions.DataIntegrityException;
 import br.net.hartwig.apicarrinhocompras.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -31,6 +33,17 @@ public class CategoriaService {
 	public Categoria update(Categoria categoria) {
 		find(categoria.getId());
 		return repo.save(categoria);
+	}
+
+	public void delete(Integer id) {
+		find(id);
+
+		try {
+			repo.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataIntegrityException(
+					"Não foi possivel excluir esta categoria, pois ela possui produtos associados!");
+		}
 	}
 
 }

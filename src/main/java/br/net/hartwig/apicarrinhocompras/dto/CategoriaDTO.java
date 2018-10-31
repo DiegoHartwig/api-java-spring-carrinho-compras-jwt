@@ -2,12 +2,19 @@ package br.net.hartwig.apicarrinhocompras.dto;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
+
 import br.net.hartwig.apicarrinhocompras.domain.Categoria;
 
 public class CategoriaDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Integer id;
+
+	@NotEmpty(message = "Preencha o campo nome")
+	@Length(min = 5, max = 100, message = "O tamanho deve ser entre 5 e 100 caracteres")
 	private String nome;
 
 	public CategoriaDTO() {

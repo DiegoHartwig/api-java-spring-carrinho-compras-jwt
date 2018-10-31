@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.net.hartwig.apicarrinhocompras.domain.Categoria;
+import br.net.hartwig.apicarrinhocompras.dto.CategoriaDTO;
 import br.net.hartwig.apicarrinhocompras.repositories.CategoriaRepository;
 import br.net.hartwig.apicarrinhocompras.services.exceptions.DataIntegrityException;
 import br.net.hartwig.apicarrinhocompras.services.exceptions.ObjectNotFoundException;
@@ -57,6 +58,10 @@ public class CategoriaService {
 	public Page<Categoria> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
+	}
+
+	public Categoria fromDTO(CategoriaDTO categoriaDto) {
+		return new Categoria(categoriaDto.getId(), categoriaDto.getNome());
 	}
 
 }

@@ -160,12 +160,12 @@ public class ApicarrinhocomprasApplication implements CommandLineRunner {
 
 		pagamentoRepository.saveAll(Arrays.asList(pagamento1, pagamento2));
 
-		ItemPedido itemPedido1 = new ItemPedido(pedido1, produto1, 0.0, 1, 1200.00);
+		ItemPedido itemPedido1 = new ItemPedido(pedido1, produto1, 0.0, 4, 1200.00);		
 		ItemPedido itemPedido2 = new ItemPedido(pedido2, produto1, 0.0, 3, 1600.00);
-
+		
 		pedido1.getItens().addAll(Arrays.asList(itemPedido1, itemPedido2));
 
-		produto1.getItens().addAll(Arrays.asList(itemPedido1));
+		produto1.getItens().addAll(Arrays.asList(itemPedido1, itemPedido2));
 
 		produto2.getItens().addAll(Arrays.asList(itemPedido2));
 

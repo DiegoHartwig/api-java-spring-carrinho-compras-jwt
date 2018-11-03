@@ -77,24 +77,24 @@ public class ClienteService {
 		return new Cliente(null, clienteDto.getNome(), clienteDto.getEmail(), null, null);
 	}
 
-	public Cliente fromDTO(NovoClienteDTO novoClienteDto) {
-		Cliente clie = new Cliente(null, novoClienteDto.getNome(), novoClienteDto.getEmail(),
-				novoClienteDto.getCpfCnpj(), TipoCliente.toEnum(novoClienteDto.getTipoCliente()));
+	public Cliente fromDTO(NovoClienteDTO clienteDto) {
+		Cliente clie = new Cliente(null, clienteDto.getNome(), clienteDto.getEmail(), clienteDto.getCpfCnpj(),
+				TipoCliente.toEnum(clienteDto.getTipoCliente()));
 
-		Cidade cid = new Cidade(novoClienteDto.getCidadeId(), null, null);
+		Cidade cid = new Cidade(clienteDto.getCidadeId(), null, null);
 
-		Endereco ende = new Endereco(null, novoClienteDto.getLogradouro(), novoClienteDto.getNumero(),
-				novoClienteDto.getComplemento(), novoClienteDto.getBairro(), novoClienteDto.getCep(), clie, cid);
+		Endereco ende = new Endereco(null, clienteDto.getLogradouro(), clienteDto.getNumero(),
+				clienteDto.getComplemento(), clienteDto.getBairro(), clienteDto.getCep(), clie, cid);
 
 		clie.getEnderecos().add(ende);
 
-		clie.getTelefones().add(novoClienteDto.getTelefone1());
+		clie.getTelefones().add(clienteDto.getTelefone1());
 
-		if (novoClienteDto.getTelefone2() != null) {
-			clie.getTelefones().add(novoClienteDto.getTelefone2());
+		if (clienteDto.getTelefone2() != null) {
+			clie.getTelefones().add(clienteDto.getTelefone2());
 		}
-		if (novoClienteDto.getTelefone3() != null) {
-			clie.getTelefones().add(novoClienteDto.getTelefone3());
+		if (clienteDto.getTelefone3() != null) {
+			clie.getTelefones().add(clienteDto.getTelefone3());
 		}
 		return clie;
 	}

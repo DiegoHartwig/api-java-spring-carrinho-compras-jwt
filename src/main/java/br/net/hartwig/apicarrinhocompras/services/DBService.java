@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import br.net.hartwig.apicarrinhocompras.domain.Categoria;
@@ -19,6 +20,7 @@ import br.net.hartwig.apicarrinhocompras.domain.PagamentoComCartao;
 import br.net.hartwig.apicarrinhocompras.domain.Pedido;
 import br.net.hartwig.apicarrinhocompras.domain.Produto;
 import br.net.hartwig.apicarrinhocompras.domain.enums.EstadoPagamento;
+import br.net.hartwig.apicarrinhocompras.domain.enums.Perfil;
 import br.net.hartwig.apicarrinhocompras.domain.enums.TipoCliente;
 import br.net.hartwig.apicarrinhocompras.repositories.CategoriaRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.CidadeRepository;
@@ -29,7 +31,6 @@ import br.net.hartwig.apicarrinhocompras.repositories.ItemPedidoRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.PagamentoRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.PedidoRepository;
 import br.net.hartwig.apicarrinhocompras.repositories.ProdutoRepository;
-
 
 @Service
 public class DBService {
@@ -60,6 +61,9 @@ public class DBService {
 
 	@Autowired
 	private ItemPedidoRepository itemPedidoRepository;
+
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
 
 	public void instantiateTestDatabase() throws ParseException {
 
@@ -121,20 +125,31 @@ public class DBService {
 		cidadeRepository.saveAll(Arrays.asList(cidade1, cidade2, cidade3));
 
 		Cliente cliente1 = new Cliente(null, "Diego Hartwig", "hartwig.diego@gmail.com", "12312311231",
-				TipoCliente.PESSOAFISICA);
-		cliente1.getTelefones().addAll(Arrays.asList("4130123344", "41996505412"));
+				TipoCliente.PESSOAFISICA, passwordEncoder.encode("12345"));
+		cliente1.getTelefones().addAll(Arrays.asList("4130123344", "41996505412"));		
+		cliente1.addPerfil(Perfil.ADMIN);
+		
+		Cliente cliente2 = new Cliente(null, "Nikola Tesla", "tesla@gmail.com", "13189630879",
+				TipoCliente.PESSOAFISICA, passwordEncoder.encode("12345"));
+		cliente2.getTelefones().addAll(Arrays.asList("4130126644", "41992305412"));
+		cliente2.addPerfil(Perfil.CLIENTE);
 
 		Endereco endereco1 = new Endereco(null, "Av Marechal Floriano Peixoto", "1", "", "Centro", "12312333", cliente1,
 				cidade1);
 
 		Endereco endereco2 = new Endereco(null, "Rua Isaac Ferreira da Cruz", "2", "", "Sitio Cercado", "1234423234",
 				cliente1, cidade1);
+		
+		Endereco endereco3 = new Endereco(null, "Rua Marte", "3", "", "Sitio Cercado", "1234423234",
+				cliente2, cidade1);
 
 		cliente1.getEnderecos().addAll(Arrays.asList(endereco1, endereco2));
+		
+		cliente2.getEnderecos().addAll(Arrays.asList(endereco3));
 
-		clienteRepository.saveAll(Arrays.asList(cliente1));
+		clienteRepository.saveAll(Arrays.asList(cliente1, cliente2));
 
-		enderecoRepository.saveAll(Arrays.asList(endereco1, endereco2));
+		enderecoRepository.saveAll(Arrays.asList(endereco1, endereco2, endereco3));
 
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 
